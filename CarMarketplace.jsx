@@ -242,7 +242,7 @@ const CarMarketplace = () => {
             </div>
 
             {/* Car Image */}
-            <div className="relative bg-gradient-to-b from-orange-300 to-gray-700" style={{ height: 'calc(100% - 220px)' }}>
+            <div className="relative bg-gradient-to-b from-orange-300 to-gray-700" style={{ height: 'calc(100% - 260px)' }}>
               <img
                 src={car.images[selectedImages[car.id]]}
                 alt={car.title}
@@ -268,37 +268,6 @@ const CarMarketplace = () => {
                 <p className="text-gray-300 text-sm mb-2">{car.location}</p>
                 <p className="text-xl font-bold text-white">{car.price}</p>
               </div>
-
-              {/* Floating Animated Countdown */}
-              {remainingCars > 0 && (
-                <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-20">
-                  <div className="relative">
-                    {/* Pulsing glow */}
-                    <div className="absolute inset-0 bg-green-500 rounded-full blur-xl opacity-40 animate-pulse"></div>
-
-                    {/* Main badge */}
-                    <div className="relative bg-gradient-to-br from-green-500 to-green-600 rounded-full px-6 py-3 shadow-2xl animate-bounce-subtle">
-                      <div className="flex items-center gap-2">
-                        <div className="animate-bounce">
-                          <ChevronLeft className="rotate-90 text-white" size={20} />
-                        </div>
-                        <div className="flex flex-col items-center">
-                          <span className="text-white font-bold text-lg leading-none">{remainingCars}</span>
-                          <span className="text-white/90 text-xs font-medium">MORE</span>
-                        </div>
-                        <div className="animate-bounce animation-delay-150">
-                          <ChevronLeft className="rotate-90 text-white" size={20} />
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Bottom arrow */}
-                    <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 animate-bounce-slow">
-                      <div className="w-0 h-0 border-l-4 border-r-4 border-t-8 border-l-transparent border-r-transparent border-t-green-500"></div>
-                    </div>
-                  </div>
-                </div>
-              )}
             </div>
 
             {/* Thumbnail Images - Enhanced */}
@@ -337,6 +306,37 @@ const CarMarketplace = () => {
               {/* Right scroll indicator */}
               <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-gray-800 to-transparent pointer-events-none z-10"></div>
             </div>
+
+            {/* Animated Countdown Below Thumbnails */}
+            {remainingCars > 0 && (
+              <div className="flex justify-center py-4 bg-gray-900 flex-shrink-0">
+                <div className="relative">
+                  {/* Pulsing glow */}
+                  <div className="absolute inset-0 bg-green-500 rounded-full blur-xl opacity-40 animate-pulse"></div>
+
+                  {/* Main badge */}
+                  <div className="relative bg-gradient-to-br from-green-500 to-green-600 rounded-full px-6 py-3 shadow-2xl animate-bounce-subtle">
+                    <div className="flex items-center gap-2">
+                      <div className="animate-bounce">
+                        <ChevronLeft className="rotate-90 text-white" size={20} />
+                      </div>
+                      <div className="flex flex-col items-center">
+                        <span className="text-white font-bold text-lg leading-none">{remainingCars}</span>
+                        <span className="text-white/90 text-xs font-medium">MORE</span>
+                      </div>
+                      <div className="animate-bounce animation-delay-150">
+                        <ChevronLeft className="rotate-90 text-white" size={20} />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Bottom arrow */}
+                  <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 animate-bounce-slow">
+                    <div className="w-0 h-0 border-l-4 border-r-4 border-t-8 border-l-transparent border-r-transparent border-t-green-500"></div>
+                  </div>
+                </div>
+              </div>
+            )}
 
           </div>
         ))}
