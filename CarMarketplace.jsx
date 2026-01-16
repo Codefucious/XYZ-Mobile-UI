@@ -88,6 +88,7 @@ const CarMarketplace = () => {
     carsData.reduce((acc, car) => ({ ...acc, [car.id]: 0 }), {})
   );
   const [remainingCars, setRemainingCars] = useState(145);
+  const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const scrollContainerRef = useRef(null);
   const cardRefs = useRef([]);
 
@@ -101,10 +102,13 @@ const CarMarketplace = () => {
       const clientHeight = scrollContainer.clientHeight;
 
       // Calculate which card is currently visible (each card takes full height)
-      const currentCardIndex = Math.round(scrollTop / clientHeight);
+      const visibleCardIndex = Math.round(scrollTop / clientHeight);
+
+      // Update current card index
+      setCurrentCardIndex(visibleCardIndex);
 
       // Update remaining cars based on scroll position
-      const newRemaining = Math.max(0, 145 - currentCardIndex);
+      const newRemaining = Math.max(0, 145 - visibleCardIndex);
       setRemainingCars(newRemaining);
     };
 
@@ -308,7 +312,7 @@ const CarMarketplace = () => {
             </div>
 
             {/* Floating Countdown - Positioned Below Thumbnails */}
-            {remainingCars > 0 && (
+            {remainingCars > 0 && index === currentCardIndex && (
               <div className="absolute bottom-0 left-0 right-0 flex justify-center pointer-events-none z-30" style={{ transform: 'translateY(50%)' }}>
                 <div className="relative pointer-events-auto">
                   {/* Pulsing glow */}
