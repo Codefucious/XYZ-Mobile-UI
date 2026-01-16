@@ -242,7 +242,7 @@ const CarMarketplace = () => {
             </div>
 
             {/* Car Image */}
-            <div className="relative flex-1 bg-gradient-to-b from-orange-300 to-gray-700">
+            <div className="relative bg-gradient-to-b from-orange-300 to-gray-700" style={{ height: 'calc(100% - 220px)' }}>
               <img
                 src={car.images[selectedImages[car.id]]}
                 alt={car.title}
@@ -268,35 +268,76 @@ const CarMarketplace = () => {
                 <p className="text-gray-300 text-sm mb-2">{car.location}</p>
                 <p className="text-xl font-bold text-white">{car.price}</p>
               </div>
-            </div>
 
-            {/* Thumbnail Images */}
-            <div className="flex gap-2 p-3 bg-gray-900 flex-shrink-0 overflow-x-auto">
-              {car.images.map((image, imgIndex) => (
-                <div
-                  key={imgIndex}
-                  onClick={() => handleThumbnailClick(car.id, imgIndex)}
-                  className={`w-28 h-16 rounded-lg overflow-hidden cursor-pointer transition-all flex-shrink-0 ${
-                    selectedImages[car.id] === imgIndex
-                      ? 'ring-4 ring-green-500 scale-105'
-                      : 'opacity-70 hover:opacity-100'
-                  }`}
-                >
-                  <img
-                    src={image}
-                    alt={`Thumbnail ${imgIndex + 1}`}
-                    className="w-full h-full object-cover"
-                  />
+              {/* Floating Animated Countdown */}
+              {remainingCars > 0 && (
+                <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-20">
+                  <div className="relative">
+                    {/* Pulsing glow */}
+                    <div className="absolute inset-0 bg-green-500 rounded-full blur-xl opacity-40 animate-pulse"></div>
+
+                    {/* Main badge */}
+                    <div className="relative bg-gradient-to-br from-green-500 to-green-600 rounded-full px-6 py-3 shadow-2xl animate-bounce-subtle">
+                      <div className="flex items-center gap-2">
+                        <div className="animate-bounce">
+                          <ChevronLeft className="rotate-90 text-white" size={20} />
+                        </div>
+                        <div className="flex flex-col items-center">
+                          <span className="text-white font-bold text-lg leading-none">{remainingCars}</span>
+                          <span className="text-white/90 text-xs font-medium">MORE</span>
+                        </div>
+                        <div className="animate-bounce animation-delay-150">
+                          <ChevronLeft className="rotate-90 text-white" size={20} />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Bottom arrow */}
+                    <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 animate-bounce-slow">
+                      <div className="w-0 h-0 border-l-4 border-r-4 border-t-8 border-l-transparent border-r-transparent border-t-green-500"></div>
+                    </div>
+                  </div>
                 </div>
-              ))}
+              )}
             </div>
 
-            {/* Swipe Up Indicator - positioned at bottom of each card */}
-            <div className="flex items-center justify-center gap-2 py-2 text-gray-400 bg-gray-900 flex-shrink-0">
-              <ChevronLeft className="rotate-90" size={16} />
-              <span className="text-xs font-semibold">SWIPE UP {remainingCars} MORE CARS</span>
-              <ChevronLeft className="rotate-90" size={16} />
+            {/* Thumbnail Images - Enhanced */}
+            <div className="relative bg-gray-800 flex-shrink-0 border-t-2 border-gray-700">
+              {/* Left scroll indicator */}
+              <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-gray-800 to-transparent pointer-events-none z-10"></div>
+
+              <div className="flex gap-3 p-4 overflow-x-auto">
+                {car.images.map((image, imgIndex) => (
+                  <div
+                    key={imgIndex}
+                    onClick={() => handleThumbnailClick(car.id, imgIndex)}
+                    className={`relative w-32 h-20 rounded-xl overflow-hidden cursor-pointer transition-all flex-shrink-0 shadow-lg ${
+                      selectedImages[car.id] === imgIndex
+                        ? 'ring-4 ring-green-400 scale-105 shadow-green-400/50'
+                        : 'opacity-80 hover:opacity-100 hover:scale-102'
+                    }`}
+                  >
+                    <img
+                      src={image}
+                      alt={`View ${imgIndex + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                    {/* Selection indicator overlay */}
+                    {selectedImages[car.id] === imgIndex && (
+                      <div className="absolute inset-0 border-2 border-green-400 bg-green-400/10"></div>
+                    )}
+                    {/* Image number badge */}
+                    <div className="absolute top-1 right-1 w-6 h-6 rounded-full bg-black/60 flex items-center justify-center">
+                      <span className="text-white text-xs font-bold">{imgIndex + 1}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Right scroll indicator */}
+              <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-gray-800 to-transparent pointer-events-none z-10"></div>
             </div>
+
           </div>
         ))}
       </div>
