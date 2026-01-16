@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Search, Bookmark, ChevronLeft, Info, Heart, Send, Phone, Home, Grid, MessageCircle, User } from 'lucide-react';
+import { Search, Bookmark, ChevronLeft, Info, Heart, Send, Phone, Home, Grid, MessageCircle, User, SlidersHorizontal } from 'lucide-react';
 
 // Sample car data
 const carsData = [
@@ -89,6 +89,7 @@ const CarMarketplace = () => {
   );
   const [remainingCars, setRemainingCars] = useState(145);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
+  const [isFilterExpanded, setIsFilterExpanded] = useState(false);
   const scrollContainerRef = useRef(null);
   const cardRefs = useRef([]);
 
@@ -143,19 +144,49 @@ const CarMarketplace = () => {
       </div>
 
       {/* Price Filter Pills */}
-      <div className="bg-gray-900 px-4 py-3 flex gap-2 overflow-x-auto flex-shrink-0">
-        <button className="px-4 py-2 rounded-full bg-green-600 text-white text-sm whitespace-nowrap">
-          &lt; TSh 11.0 M
-        </button>
-        <button className="px-4 py-2 rounded-full bg-green-600 text-white text-sm whitespace-nowrap">
-          TSh 11 - 16 M
-        </button>
-        <button className="px-4 py-2 rounded-full bg-green-600 text-white text-sm whitespace-nowrap">
-          &gt; TSh 25 M
+      <div className="bg-gray-900 px-4 py-3 flex items-center gap-2 flex-shrink-0">
+        {/* Price Pills Container */}
+        <div className="flex gap-2 overflow-x-auto flex-1">
+          <button className="px-4 py-2 rounded-full bg-green-600 text-white text-sm whitespace-nowrap">
+            &lt; TSh 11.0 M
+          </button>
+          <button className="px-4 py-2 rounded-full bg-green-600 text-white text-sm whitespace-nowrap">
+            TSh 11 - 16 M
+          </button>
+          <button className="px-4 py-2 rounded-full bg-green-600 text-white text-sm whitespace-nowrap">
+            &gt; TSh 25 M
+          </button>
+        </div>
+
+        {/* Filter Toggle Icon */}
+        <button
+          onClick={() => setIsFilterExpanded(!isFilterExpanded)}
+          className="flex-shrink-0 w-10 h-10 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors flex items-center justify-center ml-2"
+          aria-label={isFilterExpanded ? "Hide filters" : "Show filters"}
+        >
+          <SlidersHorizontal
+            size={20}
+            className={`text-white transition-transform duration-300 ${isFilterExpanded ? 'rotate-0' : 'rotate-90'}`}
+          />
         </button>
       </div>
 
-      {/* Brand Filters */}
+      {/* Dark Overlay - Shows when filters expanded */}
+      {isFilterExpanded && (
+        <div
+          onClick={() => setIsFilterExpanded(false)}
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 transition-opacity duration-300"
+          aria-hidden="true"
+        />
+      )}
+
+      {/* Collapsible Filter Sections */}
+      <div
+        className={`relative z-50 transition-all duration-300 ease-in-out overflow-hidden ${
+          isFilterExpanded ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+        }`}
+      >
+        {/* Brand Filters */}
       <div className="bg-gray-900 px-4 py-3 flex items-center gap-6 border-b border-gray-800 flex-shrink-0">
         <div className="flex flex-col items-center gap-1">
           <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center">
@@ -217,6 +248,7 @@ const CarMarketplace = () => {
           <span className="text-lg">🕐</span>
           <span>Any time</span>
         </div>
+      </div>
       </div>
 
       {/* Main Content - Car Cards */}
