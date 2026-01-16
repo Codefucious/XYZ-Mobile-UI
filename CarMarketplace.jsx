@@ -225,7 +225,7 @@ const CarMarketplace = () => {
           <div
             key={car.id}
             ref={el => cardRefs.current[index] = el}
-            className="h-full bg-gradient-to-b from-orange-200 to-gray-800 overflow-hidden shadow-lg snap-start snap-always flex flex-col"
+            className="relative h-full bg-gradient-to-b from-orange-200 to-gray-800 shadow-lg snap-start snap-always flex flex-col"
           >
             {/* Card Header */}
             <div className="p-4 flex items-center justify-between flex-shrink-0">
@@ -242,7 +242,7 @@ const CarMarketplace = () => {
             </div>
 
             {/* Car Image */}
-            <div className="relative bg-gradient-to-b from-orange-300 to-gray-700" style={{ height: 'calc(100% - 260px)' }}>
+            <div className="relative bg-gradient-to-b from-orange-300 to-gray-700 overflow-hidden" style={{ height: 'calc(100% - 200px)' }}>
               <img
                 src={car.images[selectedImages[car.id]]}
                 alt={car.title}
@@ -271,7 +271,7 @@ const CarMarketplace = () => {
             </div>
 
             {/* Thumbnail Images - Enhanced */}
-            <div className="relative bg-gray-800 flex-shrink-0 border-t-2 border-gray-700">
+            <div className="relative bg-gray-800 flex-shrink-0 border-t-2 border-gray-700 overflow-hidden">
               {/* Left scroll indicator */}
               <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-gray-800 to-transparent pointer-events-none z-10"></div>
 
@@ -307,10 +307,10 @@ const CarMarketplace = () => {
               <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-gray-800 to-transparent pointer-events-none z-10"></div>
             </div>
 
-            {/* Animated Countdown Below Thumbnails */}
+            {/* Floating Countdown - Positioned Below Thumbnails */}
             {remainingCars > 0 && (
-              <div className="flex justify-center py-4 bg-gray-900 flex-shrink-0">
-                <div className="relative">
+              <div className="absolute bottom-0 left-0 right-0 flex justify-center pointer-events-none z-30" style={{ transform: 'translateY(50%)' }}>
+                <div className="relative pointer-events-auto">
                   {/* Pulsing glow */}
                   <div className="absolute inset-0 bg-green-500 rounded-full blur-xl opacity-40 animate-pulse"></div>
 
