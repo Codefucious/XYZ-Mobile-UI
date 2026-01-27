@@ -90,8 +90,17 @@ const CarMarketplace = () => {
   const [remainingCars, setRemainingCars] = useState(145);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [isFilterExpanded, setIsFilterExpanded] = useState(false);
+  const [selectedPrice, setSelectedPrice] = useState('Price');
+  const [selectedMake, setSelectedMake] = useState('Make');
+  const [selectedYear, setSelectedYear] = useState('Year');
+  const [activeFilter, setActiveFilter] = useState(null); // 'price' | 'make' | 'year' | null
   const scrollContainerRef = useRef(null);
   const cardRefs = useRef([]);
+  const showThumbnailStrip = import.meta.env.VITE_ENABLE_THUMBNAIL_STRIP === 'true';
+
+  const priceOptions = ['Any', '0 - 10M', '10M - 30M', '30M - 60M', '60M+'];
+  const makeOptions = ['Any', 'Toyota', 'Mercedes-Benz', 'BMW', 'Audi', 'Land Rover'];
+  const yearOptions = ['Any', '2024', '2023', '2022', '2020-2021', '2015-2019'];
 
   // Handle scroll to update remaining cars count
   useEffect(() => {
@@ -119,6 +128,18 @@ const CarMarketplace = () => {
 
   const handleThumbnailClick = (carId, imageIndex) => {
     setSelectedImages(prev => ({ ...prev, [carId]: imageIndex }));
+  };
+
+  const handleImageNavigate = (carId, direction, totalImages) => {
+    setSelectedImages(prev => {
+      const currentIndex = prev[carId] ?? 0;
+      let nextIndex = currentIndex + direction;
+
+      if (nextIndex < 0) nextIndex = totalImages - 1;
+      if (nextIndex >= totalImages) nextIndex = 0;
+
+      return { ...prev, [carId]: nextIndex };
+    });
   };
 
   return (
@@ -174,44 +195,142 @@ const CarMarketplace = () => {
         }`}
       >
         {/* Brand Filters */}
-      <div className="bg-gray-900 px-4 py-3 flex items-center gap-6 border-b border-gray-800 flex-shrink-0">
-        <div className="flex flex-col items-center gap-1">
-          <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center">
-            <span className="text-gray-900 font-bold text-xs">BMW</span>
+      <div className="bg-gray-900 px-4 py-3 border-b border-gray-800 flex-shrink-0 overflow-x-auto">
+        <div className="flex items-center gap-4 min-w-max">
+          {/* Popular brand logo circles */}
+          <div className="flex flex-col items-center gap-1">
+            <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center">
+              <span className="text-gray-900 font-bold text-xs">BMW</span>
+            </div>
+            <span className="text-xs text-gray-400">BMW</span>
           </div>
-        </div>
-        <div className="flex flex-col items-center gap-1">
-          <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center">
-            <span className="text-gray-900 font-bold text-xs">★</span>
+          <div className="flex flex-col items-center gap-1">
+            <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center">
+              <span className="text-gray-900 font-bold text-xs">MB</span>
+            </div>
+            <span className="text-xs text-gray-400">Mercedes</span>
           </div>
-          <span className="text-xs text-gray-400">Mercedes-Benz</span>
-        </div>
-        <div className="flex-1"></div>
-        <div className="flex flex-col items-center gap-1">
-          <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center">
-            <span className="text-gray-900 font-bold text-xs">M</span>
+          <div className="flex flex-col items-center gap-1">
+            <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center">
+              <span className="text-gray-900 font-bold text-xs">AUDI</span>
+            </div>
+            <span className="text-xs text-gray-400">Audi</span>
           </div>
-          <span className="text-xs text-gray-400">Other</span>
+          <div className="flex flex-col items-center gap-1">
+            <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center">
+              <span className="text-gray-900 font-bold text-xs">VW</span>
+            </div>
+            <span className="text-xs text-gray-400">Volkswagen</span>
+          </div>
+          <div className="flex flex-col items-center gap-1">
+            <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center">
+              <span className="text-gray-900 font-bold text-xs">TOY</span>
+            </div>
+            <span className="text-xs text-gray-400">Toyota</span>
+          </div>
+          <div className="flex flex-col items-center gap-1">
+            <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center">
+              <span className="text-gray-900 font-bold text-xs">HON</span>
+            </div>
+            <span className="text-xs text-gray-400">Honda</span>
+          </div>
+          <div className="flex flex-col items-center gap-1">
+            <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center">
+              <span className="text-gray-900 font-bold text-xs">NIS</span>
+            </div>
+            <span className="text-xs text-gray-400">Nissan</span>
+          </div>
+          <div className="flex flex-col items-center gap-1">
+            <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center">
+              <span className="text-gray-900 font-bold text-xs">LR</span>
+            </div>
+            <span className="text-xs text-gray-400">Land Rover</span>
+          </div>
+          <div className="flex flex-col items-center gap-1">
+            <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center">
+              <span className="text-gray-900 font-bold text-xs">JEEP</span>
+            </div>
+            <span className="text-xs text-gray-400">Jeep</span>
+          </div>
+          <div className="flex flex-col items-center gap-1">
+            <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center">
+              <span className="text-gray-900 font-bold text-xs">FORD</span>
+            </div>
+            <span className="text-xs text-gray-400">Ford</span>
+          </div>
         </div>
       </div>
 
-      {/* Filter Tabs */}
-      <div className="bg-gray-900 px-4 flex gap-6 border-b-2 border-gray-800 overflow-x-auto flex-shrink-0">
-        <button className="py-3 text-white border-b-2 border-white whitespace-nowrap">
-          All filters
-        </button>
-        <button className="py-3 text-gray-400 whitespace-nowrap">
-          Price, Tsh
-        </button>
-        <button className="py-3 text-gray-400 whitespace-nowrap">
-          Make
-        </button>
-        <button className="py-3 text-gray-400 whitespace-nowrap">
-          Year
-        </button>
-        <button className="py-3 text-gray-400 whitespace-nowrap">
-          Year
-        </button>
+      {/* Filter Tabs - Centered buttons with dropdowns */}
+      <div className="bg-gray-900 px-4 py-3 border-b-2 border-gray-800 flex-shrink-0">
+        <div className="flex flex-col items-center gap-3">
+          <div className="flex justify-center gap-3 w-full">
+            <button
+              type="button"
+              onClick={() => setActiveFilter(activeFilter === 'price' ? null : 'price')}
+              className={`flex-1 max-w-[110px] px-4 py-2 rounded-full text-sm font-medium border transition ${
+                activeFilter === 'price'
+                  ? 'bg-white text-gray-900 border-white'
+                  : 'bg-gray-800 text-gray-200 border-gray-600'
+              }`}
+            >
+              {selectedPrice}
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveFilter(activeFilter === 'make' ? null : 'make')}
+              className={`flex-1 max-w-[110px] px-4 py-2 rounded-full text-sm font-medium border transition ${
+                activeFilter === 'make'
+                  ? 'bg-white text-gray-900 border-white'
+                  : 'bg-gray-800 text-gray-200 border-gray-600'
+              }`}
+            >
+              {selectedMake}
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveFilter(activeFilter === 'year' ? null : 'year')}
+              className={`flex-1 max-w-[110px] px-4 py-2 rounded-full text-sm font-medium border transition ${
+                activeFilter === 'year'
+                  ? 'bg-white text-gray-900 border-white'
+                  : 'bg-gray-800 text-gray-200 border-gray-600'
+              }`}
+            >
+              {selectedYear}
+            </button>
+          </div>
+
+          {activeFilter && (
+            <div className="w-full max-w-md mx-auto bg-gray-800 rounded-xl mt-1 overflow-hidden max-h-56 overflow-y-auto">
+              <div className="flex flex-col divide-y divide-gray-700">
+                {(activeFilter === 'price' ? priceOptions : activeFilter === 'make' ? makeOptions : yearOptions).map(
+                  option => (
+                    <button
+                      key={option}
+                      type="button"
+                      onClick={() => {
+                        if (activeFilter === 'price') setSelectedPrice(option === 'Any' ? 'Price' : option);
+                        if (activeFilter === 'make') setSelectedMake(option === 'Any' ? 'Make' : option);
+                        if (activeFilter === 'year') setSelectedYear(option === 'Any' ? 'Year' : option);
+                        setActiveFilter(null);
+                      }}
+                      className="w-full text-left px-4 py-2 text-sm text-gray-100 hover:bg-gray-700 transition"
+                    >
+                      {option}
+                    </button>
+                  )
+                )}
+              </div>
+            </div>
+          )}
+
+          <button
+            type="button"
+            className="mt-1 w-full max-w-md mx-auto bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-xl transition"
+          >
+            Search
+          </button>
+        </div>
       </div>
 
       {/* Sort Controls */}
@@ -258,6 +377,22 @@ const CarMarketplace = () => {
                 className="w-full h-full object-cover"
               />
 
+              {/* Image navigation arrows */}
+              <button
+                type="button"
+                className="absolute left-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/60 flex items-center justify-center hover:bg-black/80 transition"
+                onClick={() => handleImageNavigate(car.id, -1, car.images.length)}
+              >
+                <ChevronLeft size={20} className="text-white" />
+              </button>
+              <button
+                type="button"
+                className="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/60 flex items-center justify-center hover:bg-black/80 transition"
+                onClick={() => handleImageNavigate(car.id, 1, car.images.length)}
+              >
+                <ChevronLeft size={20} className="text-white rotate-180" />
+              </button>
+
               {/* Card Header Overlay */}
               <div className="absolute top-0 left-0 right-0 p-4 flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -293,42 +428,44 @@ const CarMarketplace = () => {
               </div>
             </div>
 
-            {/* Thumbnail Images - Enhanced */}
-            <div className="relative bg-gray-800 flex-shrink-0 border-t-2 border-gray-700 overflow-hidden">
-              {/* Left scroll indicator */}
-              <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-gray-800 to-transparent pointer-events-none z-10"></div>
+            {/* Thumbnail Images - Enhanced (controlled by env flag) */}
+            {showThumbnailStrip && (
+              <div className="relative bg-gray-800 flex-shrink-0 border-t-2 border-gray-700 overflow-hidden">
+                {/* Left scroll indicator */}
+                <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-gray-800 to-transparent pointer-events-none z-10"></div>
 
-              <div className="flex gap-3 p-4 overflow-x-auto">
-                {car.images.map((image, imgIndex) => (
-                  <div
-                    key={imgIndex}
-                    onClick={() => handleThumbnailClick(car.id, imgIndex)}
-                    className={`relative w-32 h-20 rounded-xl overflow-hidden cursor-pointer transition-all flex-shrink-0 shadow-lg ${
-                      selectedImages[car.id] === imgIndex
-                        ? 'ring-4 ring-green-400 scale-105 shadow-green-400/50'
-                        : 'opacity-80 hover:opacity-100 hover:scale-102'
-                    }`}
-                  >
-                    <img
-                      src={image}
-                      alt={`View ${imgIndex + 1}`}
-                      className="w-full h-full object-cover"
-                    />
-                    {/* Selection indicator overlay */}
-                    {selectedImages[car.id] === imgIndex && (
-                      <div className="absolute inset-0 border-2 border-green-400 bg-green-400/10"></div>
-                    )}
-                    {/* Image number badge */}
-                    <div className="absolute top-1 right-1 w-6 h-6 rounded-full bg-black/60 flex items-center justify-center">
-                      <span className="text-white text-xs font-bold">{imgIndex + 1}</span>
+                <div className="flex gap-3 p-4 overflow-x-auto">
+                  {car.images.map((image, imgIndex) => (
+                    <div
+                      key={imgIndex}
+                      onClick={() => handleThumbnailClick(car.id, imgIndex)}
+                      className={`relative w-32 h-20 rounded-xl overflow-hidden cursor-pointer transition-all flex-shrink-0 shadow-lg ${
+                        selectedImages[car.id] === imgIndex
+                          ? 'ring-4 ring-green-400 scale-105 shadow-green-400/50'
+                          : 'opacity-80 hover:opacity-100 hover:scale-102'
+                      }`}
+                    >
+                      <img
+                        src={image}
+                        alt={`View ${imgIndex + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                      {/* Selection indicator overlay */}
+                      {selectedImages[car.id] === imgIndex && (
+                        <div className="absolute inset-0 border-2 border-green-400 bg-green-400/10"></div>
+                      )}
+                      {/* Image number badge */}
+                      <div className="absolute top-1 right-1 w-6 h-6 rounded-full bg-black/60 flex items-center justify-center">
+                        <span className="text-white text-xs font-bold">{imgIndex + 1}</span>
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
 
-              {/* Right scroll indicator */}
-              <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-gray-800 to-transparent pointer-events-none z-10"></div>
-            </div>
+                {/* Right scroll indicator */}
+                <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-gray-800 to-transparent pointer-events-none z-10"></div>
+              </div>
+            )}
 
           </div>
         ))}
