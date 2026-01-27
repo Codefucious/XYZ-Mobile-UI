@@ -272,24 +272,24 @@ const CarMarketplace = () => {
                 </button>
               </div>
 
-              {/* Action Buttons */}
-              <div className="absolute right-4 top-1/2 transform -translate-y-1/2 flex flex-col gap-3">
-                <button className="w-12 h-12 rounded-full bg-gray-900 flex items-center justify-center shadow-lg hover:bg-gray-800 transition">
-                  <Heart size={24} className="text-white" />
-                </button>
-                <button className="w-12 h-12 rounded-full bg-gray-900 flex items-center justify-center shadow-lg hover:bg-gray-800 transition">
-                  <Send size={24} className="text-white" />
-                </button>
-                <button className="w-12 h-12 rounded-full bg-gray-900 flex items-center justify-center shadow-lg hover:bg-gray-800 transition">
-                  <Phone size={24} className="text-white" />
-                </button>
-              </div>
-
-              {/* Car Details Overlay */}
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
-                <h2 className="text-2xl font-bold text-white mb-1">{car.title}</h2>
-                <p className="text-gray-300 text-sm mb-2">{car.location}</p>
-                <p className="text-xl font-bold text-white">{car.price}</p>
+              {/* Car Details + Action Buttons Overlay */}
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 flex items-end justify-between gap-3">
+                <div>
+                  <h2 className="text-2xl font-bold text-white mb-1">{car.title}</h2>
+                  <p className="text-gray-300 text-sm mb-2">{car.location}</p>
+                  <p className="text-xl font-bold text-white">{car.price}</p>
+                </div>
+                <div className="flex flex-row gap-3 items-center">
+                  <button className="w-12 h-12 rounded-full bg-gray-900 flex items-center justify-center shadow-lg hover:bg-gray-800 transition">
+                    <Heart size={24} className="text-white" />
+                  </button>
+                  <button className="w-12 h-12 rounded-full bg-gray-900 flex items-center justify-center shadow-lg hover:bg-gray-800 transition">
+                    <Send size={24} className="text-white" />
+                  </button>
+                  <button className="w-12 h-12 rounded-full bg-gray-900 flex items-center justify-center shadow-lg hover:bg-gray-800 transition">
+                    <Phone size={24} className="text-white" />
+                  </button>
+                </div>
               </div>
             </div>
 
