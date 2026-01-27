@@ -248,7 +248,7 @@ const CarMarketplace = () => {
           <div
             key={car.id}
             ref={el => cardRefs.current[index] = el}
-            className="relative h-full bg-gradient-to-b from-orange-200 to-gray-800 shadow-lg snap-start snap-always flex flex-col"
+            className="relative h-1/2 bg-gradient-to-b from-orange-200 to-gray-800 shadow-lg snap-start snap-always flex flex-col"
           >
             {/* Card Header */}
             <div className="p-4 flex items-center justify-between flex-shrink-0">
