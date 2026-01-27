@@ -406,21 +406,21 @@ const CarMarketplace = () => {
               </div>
 
               {/* Car Details + Action Buttons Overlay */}
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 flex items-end justify-between gap-3">
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3 flex items-end justify-between gap-2">
                 <div>
-                  <h2 className="text-2xl font-bold text-white mb-1">{car.title}</h2>
-                  <p className="text-gray-300 text-sm mb-2">{car.location}</p>
-                  <p className="text-xl font-bold text-white">{car.price}</p>
+                  <h2 className="text-xl font-bold text-white mb-1">{car.title}</h2>
+                  <p className="text-gray-300 text-xs mb-1">{car.location}</p>
+                  <p className="text-lg font-bold text-white">{car.price}</p>
                 </div>
-                <div className="flex flex-row gap-3 items-center">
-                  <button className="w-12 h-12 rounded-full bg-gray-900 flex items-center justify-center shadow-lg hover:bg-gray-800 transition">
-                    <Heart size={24} className="text-white" />
+                <div className="flex flex-row gap-2 items-center">
+                  <button className="w-9 h-9 rounded-full bg-gray-900 flex items-center justify-center shadow-lg hover:bg-gray-800 transition">
+                    <Heart size={18} className="text-white" />
                   </button>
-                  <button className="w-12 h-12 rounded-full bg-gray-900 flex items-center justify-center shadow-lg hover:bg-gray-800 transition">
-                    <Send size={24} className="text-white" />
+                  <button className="w-9 h-9 rounded-full bg-gray-900 flex items-center justify-center shadow-lg hover:bg-gray-800 transition">
+                    <Send size={18} className="text-white" />
                   </button>
-                  <button className="w-12 h-12 rounded-full bg-gray-900 flex items-center justify-center shadow-lg hover:bg-gray-800 transition">
-                    <Phone size={24} className="text-white" />
+                  <button className="w-9 h-9 rounded-full bg-gray-900 flex items-center justify-center shadow-lg hover:bg-gray-800 transition">
+                    <Phone size={18} className="text-white" />
                   </button>
                 </div>
               </div>
