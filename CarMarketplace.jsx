@@ -248,29 +248,29 @@ const CarMarketplace = () => {
           <div
             key={car.id}
             ref={el => cardRefs.current[index] = el}
-            className="relative h-1/2 bg-gradient-to-b from-orange-200 to-gray-800 shadow-lg snap-start snap-always flex flex-col"
+            className="relative h-1/2 bg-gray-900 shadow-lg snap-start snap-always flex flex-col"
           >
-            {/* Card Header */}
-            <div className="p-4 flex items-center justify-between flex-shrink-0">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-gray-800"></div>
-                <div>
-                  <p className="text-sm text-gray-700">{car.username}</p>
-                  <p className="text-xs text-gray-600">Posted {car.postedTime}</p>
-                </div>
-              </div>
-              <button className="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center">
-                <Info size={20} className="text-white" />
-              </button>
-            </div>
-
             {/* Car Image */}
-            <div className="relative bg-gradient-to-b from-orange-300 to-gray-700 overflow-hidden" style={{ height: 'calc(100% - 200px)' }}>
+            <div className="relative flex-1 bg-gradient-to-b from-orange-300 to-gray-700 overflow-hidden">
               <img
                 src={car.images[selectedImages[car.id]]}
                 alt={car.title}
                 className="w-full h-full object-cover"
               />
+
+              {/* Card Header Overlay */}
+              <div className="absolute top-0 left-0 right-0 p-4 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-full bg-gray-800"></div>
+                  <div className="bg-black/70 px-3 py-2 rounded-lg">
+                    <p className="text-sm font-bold text-white">{car.username}</p>
+                    <p className="text-xs text-white">Posted {car.postedTime}</p>
+                  </div>
+                </div>
+                <button className="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center">
+                  <Info size={20} className="text-white" />
+                </button>
+              </div>
 
               {/* Action Buttons */}
               <div className="absolute right-4 top-1/2 transform -translate-y-1/2 flex flex-col gap-3">
@@ -329,37 +329,6 @@ const CarMarketplace = () => {
               {/* Right scroll indicator */}
               <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-gray-800 to-transparent pointer-events-none z-10"></div>
             </div>
-
-            {/* Floating Countdown - Positioned Below Thumbnails */}
-            {remainingCars > 0 && index === currentCardIndex && (
-              <div className="absolute bottom-0 left-0 right-0 flex justify-center pointer-events-none z-30" style={{ transform: 'translateY(50%)' }}>
-                <div className="relative pointer-events-auto">
-                  {/* Pulsing glow */}
-                  <div className="absolute inset-0 bg-green-500 rounded-full blur-xl opacity-40 animate-pulse"></div>
-
-                  {/* Main badge */}
-                  <div className="relative bg-gradient-to-br from-green-500 to-green-600 rounded-full px-6 py-3 shadow-2xl animate-bounce-subtle">
-                    <div className="flex items-center gap-2">
-                      <div className="animate-bounce">
-                        <ChevronLeft className="rotate-90 text-white" size={20} />
-                      </div>
-                      <div className="flex flex-col items-center">
-                        <span className="text-white font-bold text-lg leading-none">{remainingCars}</span>
-                        <span className="text-white/90 text-xs font-medium">MORE</span>
-                      </div>
-                      <div className="animate-bounce animation-delay-150">
-                        <ChevronLeft className="rotate-90 text-white" size={20} />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Bottom arrow */}
-                  <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 animate-bounce-slow">
-                    <div className="w-0 h-0 border-l-4 border-r-4 border-t-8 border-l-transparent border-r-transparent border-t-green-500"></div>
-                  </div>
-                </div>
-              </div>
-            )}
 
           </div>
         ))}
