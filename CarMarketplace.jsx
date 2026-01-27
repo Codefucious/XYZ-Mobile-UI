@@ -93,6 +93,7 @@ const CarMarketplace = () => {
   const [selectedPrice, setSelectedPrice] = useState('Price');
   const [selectedMake, setSelectedMake] = useState('Make');
   const [selectedYear, setSelectedYear] = useState('Year');
+  const [selectedSort, setSelectedSort] = useState('posted');
   const [activeFilter, setActiveFilter] = useState(null); // 'price' | 'make' | 'year' | null
   const scrollContainerRef = useRef(null);
   const cardRefs = useRef([]);
@@ -101,6 +102,11 @@ const CarMarketplace = () => {
   const priceOptions = ['Any', '0 - 10M', '10M - 30M', '30M - 60M', '60M+'];
   const makeOptions = ['Any', 'Toyota', 'Mercedes-Benz', 'BMW', 'Audi', 'Land Rover'];
   const yearOptions = ['Any', '2024', '2023', '2022', '2020-2021', '2015-2019'];
+  const sortOptions = [
+    { value: 'posted', label: 'Posted time' },
+    { value: 'mileage', label: 'Mileage' },
+    { value: 'price', label: 'Price' }
+  ];
 
   // Handle scroll to update remaining cars count
   useEffect(() => {
@@ -145,12 +151,10 @@ const CarMarketplace = () => {
   return (
     <div className="max-w-md mx-auto bg-gray-900 text-white h-screen flex flex-col overflow-hidden">
       {/* Header */}
-      <div className="bg-gradient-to-r from-green-600 to-green-500 p-4 flex-shrink-0">
-        <div className="flex items-center gap-3">
-          <button className="text-white">
-            <ChevronLeft size={28} />
-          </button>
-          <h1 className="text-lg font-semibold">Cars</h1>
+      <div className="bg-gradient-to-r from-gray-900 to-gray-800 p-4 flex-shrink-0">
+        <div className="flex items-center justify-center gap-2">
+          <h1 className="text-xl font-extrabold tracking-wide">Autotraders.Co.Tz</h1>
+          <span className="text-2xl">🚗</span>
         </div>
       </div>
 
@@ -190,8 +194,8 @@ const CarMarketplace = () => {
 
       {/* Collapsible Filter Sections */}
       <div
-        className={`relative z-50 transition-all duration-300 ease-in-out overflow-hidden ${
-          isFilterExpanded ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+        className={`relative z-50 transition-all duration-300 ease-in-out ${
+          isFilterExpanded ? 'max-h-96 opacity-100 overflow-visible' : 'max-h-0 opacity-0 overflow-hidden'
         }`}
       >
         {/* Brand Filters */}
@@ -301,7 +305,7 @@ const CarMarketplace = () => {
           </div>
 
           {activeFilter && (
-            <div className="w-full max-w-md mx-auto bg-gray-800 rounded-xl mt-1 overflow-hidden max-h-56 overflow-y-auto">
+            <div className="w-full max-w-md mx-auto bg-gray-800 rounded-xl mt-1 max-h-56 overflow-y-auto">
               <div className="flex flex-col divide-y divide-gray-700">
                 {(activeFilter === 'price' ? priceOptions : activeFilter === 'make' ? makeOptions : yearOptions).map(
                   option => (
@@ -324,37 +328,31 @@ const CarMarketplace = () => {
             </div>
           )}
 
+          {/* Sort bar just above Search */}
+          <div className="mt-3 w-full max-w-md mx-auto bg-gray-900 rounded-xl px-4 py-2 border border-gray-700 flex items-center justify-between">
+            <span className="text-sm text-gray-300">Sort by</span>
+            <select
+              value={selectedSort}
+              onChange={e => setSelectedSort(e.target.value)}
+              className="ml-3 bg-gray-800 text-gray-100 text-sm px-3 py-1 rounded-lg border border-gray-600 focus:outline-none"
+            >
+              {sortOptions.map(option => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
           <button
             type="button"
-            className="mt-1 w-full max-w-md mx-auto bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-xl transition"
+            className="mt-3 w-full max-w-md mx-auto bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-xl transition"
           >
             Search
           </button>
         </div>
       </div>
 
-      {/* Sort Controls */}
-      <div className="bg-gray-900 px-4 py-3 flex items-center justify-between flex-shrink-0">
-        <div className="flex items-center gap-2">
-          <button className="text-gray-400">
-            <ChevronLeft size={24} />
-          </button>
-          <button className="text-gray-400">
-            <ChevronLeft size={24} />
-          </button>
-          <button className="text-gray-400">
-            <ChevronLeft size={24} className="rotate-180" />
-          </button>
-        </div>
-        <div className="flex items-center gap-4">
-          <Grid size={20} className="text-white" />
-          <span className="text-sm text-gray-400">Sort by: Recommended</span>
-        </div>
-        <div className="flex items-center gap-2 text-gray-400 text-sm">
-          <span className="text-lg">🕐</span>
-          <span>Any time</span>
-        </div>
-      </div>
       </div>
 
       {/* Main Content - Car Cards */}
