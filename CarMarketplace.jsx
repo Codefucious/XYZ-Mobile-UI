@@ -129,33 +129,20 @@ const CarMarketplace = () => {
           <button className="text-white">
             <ChevronLeft size={28} />
           </button>
-          <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-            <input
-              type="text"
-              placeholder="Search in Cars"
-              className="w-full pl-10 pr-4 py-2 rounded-lg bg-white text-gray-800 placeholder-gray-400 focus:outline-none"
-            />
-          </div>
-          <button className="text-white">
-            <Bookmark size={24} />
-          </button>
+          <h1 className="text-lg font-semibold">Cars</h1>
         </div>
       </div>
 
-      {/* Price Filter Pills */}
+      {/* Search Bar + Filter Toggle */}
       <div className="bg-gray-900 px-4 py-3 flex items-center gap-2 flex-shrink-0">
-        {/* Price Pills Container */}
-        <div className="flex gap-2 overflow-x-auto flex-1">
-          <button className="px-4 py-2 rounded-full bg-green-600 text-white text-sm whitespace-nowrap">
-            &lt; TSh 11.0 M
-          </button>
-          <button className="px-4 py-2 rounded-full bg-green-600 text-white text-sm whitespace-nowrap">
-            TSh 11 - 16 M
-          </button>
-          <button className="px-4 py-2 rounded-full bg-green-600 text-white text-sm whitespace-nowrap">
-            &gt; TSh 25 M
-          </button>
+        {/* Search Input */}
+        <div className="flex-1 relative">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+          <input
+            type="text"
+            placeholder="Search in Cars"
+            className="w-full pl-10 pr-4 py-2 rounded-lg bg-white text-gray-800 placeholder-gray-400 focus:outline-none"
+          />
         </div>
 
         {/* Filter Toggle Icon */}
