@@ -117,8 +117,9 @@ const CarMarketplace = ({ onNavigate, activePage }) => {
       const scrollTop = scrollContainer.scrollTop;
       const clientHeight = scrollContainer.clientHeight;
 
-      // Calculate which card is currently visible (each card takes full height)
-      const visibleCardIndex = Math.round(scrollTop / clientHeight);
+      // Calculate which pair of cards is currently visible (each card is h-1/2, so 2 cards = clientHeight)
+      const pairIndex = Math.round(scrollTop / clientHeight);
+      const visibleCardIndex = pairIndex * 2;
 
       // Update current card index
       setCurrentCardIndex(visibleCardIndex);
@@ -365,7 +366,7 @@ const CarMarketplace = ({ onNavigate, activePage }) => {
           <div
             key={car.id}
             ref={el => (cardRefs.current[index] = el)}
-            className="relative h-1/2 bg-gray-900 shadow-lg snap-start snap-always flex flex-col"
+            className={`relative h-1/2 bg-gray-900 shadow-lg flex flex-col${index % 2 === 0 ? ' snap-start snap-always' : ''}`}
           >
             {/* Car Image */}
             <div className="relative flex-1 bg-gradient-to-b from-orange-300 to-gray-700 overflow-hidden">
