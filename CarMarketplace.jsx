@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Search, Bookmark, ChevronLeft, Info, Heart, Send, Phone, Home, Grid, MessageCircle, User, SlidersHorizontal } from 'lucide-react';
+import { Search, Bookmark, ChevronLeft, Info, Heart, Send, Phone, Home, LayoutList, MessageCircle, User, SlidersHorizontal } from 'lucide-react';
 
 // Sample car data
 const carsData = [
@@ -83,7 +83,7 @@ const carsData = [
   }
 ];
 
-const CarMarketplace = () => {
+const CarMarketplace = ({ onNavigate, activePage }) => {
   const [selectedImages, setSelectedImages] = useState(
     carsData.reduce((acc, car) => ({ ...acc, [car.id]: 0 }), {})
   );
@@ -358,13 +358,13 @@ const CarMarketplace = () => {
       {/* Main Content - Car Cards */}
       <div
         ref={scrollContainerRef}
-        className="flex-1 bg-gray-900 overflow-y-scroll snap-y snap-mandatory"
+        className="flex-1 bg-gray-900 overflow-y-scroll snap-y snap-mandatory pb-24"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {carsData.map((car, index) => (
           <div
             key={car.id}
-            ref={el => cardRefs.current[index] = el}
+            ref={el => (cardRefs.current[index] = el)}
             className="relative h-1/2 bg-gray-900 shadow-lg snap-start snap-always flex flex-col"
           >
             {/* Car Image */}
@@ -469,25 +469,25 @@ const CarMarketplace = () => {
         ))}
       </div>
 
-      {/* Bottom Navigation */}
-      <div className="bg-gray-300 px-6 py-3 flex items-center justify-between border-t border-gray-400 flex-shrink-0">
-        <button className="flex flex-col items-center gap-1 text-gray-600">
+      {/* Bottom Navigation - fixed at viewport bottom, outside scroll area */}
+      <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-gray-300 px-6 py-3 flex items-center justify-between border-t border-gray-400">
+        <button onClick={() => onNavigate('home')} className={`flex flex-col items-center gap-1 ${activePage === 'home' ? 'text-gray-900' : 'text-gray-600'}`}>
           <Home size={24} />
           <span className="text-xs">Home</span>
         </button>
-        <button className="flex flex-col items-center gap-1 text-gray-600">
+        <button onClick={() => onNavigate('saved')} className={`flex flex-col items-center gap-1 ${activePage === 'saved' ? 'text-gray-900' : 'text-gray-600'}`}>
           <Bookmark size={24} />
           <span className="text-xs">Saved</span>
         </button>
-        <button className="flex flex-col items-center gap-1 text-gray-600">
-          <Grid size={24} />
-          <span className="text-xs">Sell</span>
+        <button onClick={() => onNavigate('myads')} className={`flex flex-col items-center gap-1 ${activePage === 'myads' ? 'text-gray-900' : 'text-gray-600'}`}>
+          <LayoutList size={24} />
+          <span className="text-xs">My Ads</span>
         </button>
-        <button className="flex flex-col items-center gap-1 text-gray-600">
+        <button onClick={() => onNavigate('messages')} className={`flex flex-col items-center gap-1 ${activePage === 'messages' ? 'text-gray-900' : 'text-gray-600'}`}>
           <MessageCircle size={24} />
           <span className="text-xs">Messages</span>
         </button>
-        <button className="flex flex-col items-center gap-1 text-gray-600">
+        <button onClick={() => onNavigate('profile')} className={`flex flex-col items-center gap-1 ${activePage === 'profile' ? 'text-gray-900' : 'text-gray-600'}`}>
           <User size={24} />
           <span className="text-xs">Profile</span>
         </button>
